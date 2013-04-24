@@ -1,11 +1,8 @@
-Actions
+Solution to Ryan Bate's ruby-warrior
 
-Senses
- - probably want to save what was observed.
- - check health hasn't decreases, etc...
+https://github.com/ryanb/ruby-warrior
 
-Directions
- - :forward, :backward, :left or :right
+Current Status:
 
 
 CONGRATULATIONS! You have climbed to the top of the tower and rescued the fair maiden Ruby.
