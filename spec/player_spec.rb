@@ -82,38 +82,62 @@ describe Player do
     end
   end
 
+  context :something_behind? do
+    it "returns true when enemy or captive spotted" do
+      @warrior.stub(:look).with(:backward).and_return(['nothing', 'nothing', 'Captive'])
+      player.something_behind?.should be_true
+    end
+
+    it "returns false when no enemy or captive spotted" do
+      @warrior.stub(:look).with(:backward).and_return(['nothing', 'nothing', 'wall'])
+      player.something_behind?.should be_false
+    end
+  end
+
+  context :enemy_ahead? do
+    it "returns false when no enemy" do
+      @warrior.stub(:look).and_return(['nothing', 'wall', 'Captive'])
+      player.enemy_ahead?.should be_false
+    end
+
+    it "returns true when enemy in front" do
+      @warrior.stub(:look).and_return(['nothing', 'Sludge', 'wall'])
+      player.enemy_ahead?.should be_true
+    end
+  end
+
   context :retreat? do
-    it "returns true when ..." do
+    xit "returns true when ..." do
       false.should be_true
     end
   end
 
   context :melee_attack_enemy? do
-    it "returns true when ..." do
+    xit "returns true when ..." do
       false.should be_true
     end
   end
 
   context :range_attack_enemy? do
-    it "returns true when ..." do
+    xit "returns true when ..." do
       false.should be_true
     end
   end
 
   context :rescue_captive? do
-    it "returns true when ..." do
+    xit "returns true when ..." do
       false.should be_true
     end
   end
 
   context :heal? do
-    it "returns true when ..." do
+    xit "returns true when ..." do
       false.should be_true
     end
   end
 
   context :cannot_go_forward? do
-    it "returns true when ..." do
+    xit "returns true when ..." do
       false.should be_true
     end
   end

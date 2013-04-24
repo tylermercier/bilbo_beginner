@@ -2,8 +2,10 @@ module WarriorAttribues
 
   LOW_HEALTH = 12
   FULL_HEALTH = 20
-  FRIENDS = ['Captive']
+  FRIENDLY = ['Captive']
   ENEMIES = ['Archer', 'Wizard', 'Sludge', 'Thick Sludge']
+  RANGE_ENEMIES = ['Archer', 'Wizard', 'Thick Sludge']
+  UNIMPORTANT = ['nothing', 'wall']
   DIRECTIONS = [:forward, :left, :backward, :right]
 
   def health_low?
@@ -31,8 +33,8 @@ module WarriorAttribues
 
   def has_clear_shot?
     @warrior.look.each do |thing|
-      return true if ENEMIES.include? thing.to_s
-      return false if FRIENDS.include? thing.to_s
+      return true if RANGE_ENEMIES.include? thing.to_s
+      return false if FRIENDLY.include? thing.to_s
     end
     false
   end
@@ -49,6 +51,20 @@ module WarriorAttribues
       return false if thing.to_s != 'nothing'
     end
     true
+  end
+
+  def something_behind?
+    @warrior.look(:backward).each do |thing|
+      return true unless UNIMPORTANT.include? thing.to_s
+    end
+    false
+  end
+
+  def enemy_ahead?
+    @warrior.look.each do |thing|
+      return true if ENEMIES.include? thing.to_s
+    end
+    false
   end
 
   def retreat?
@@ -68,7 +84,7 @@ module WarriorAttribues
   end
 
   def heal?
-    damaged? && not_taking_damage?
+    damaged? && not_taking_damage? && enemy_ahead?
   end
 
   def cannot_go_forward?

@@ -20,7 +20,8 @@ class Player
 
   def inspect_world
     p "Health: #{@warrior.health}"
-    p "View: #{@warrior.look}"
+    p "Front: #{@warrior.look}"
+    p "Back: #{@warrior.look(:backward)}"
   end
 
   def lookup_action
@@ -30,6 +31,7 @@ class Player
     return lambda { @warrior.shoot! } if range_attack_enemy?
     return lambda { @warrior.rescue! } if rescue_captive?
     return lambda { @warrior.rest! } if heal?
+    return lambda { @warrior.pivot! } if something_behind?
     return lambda { @warrior.pivot! } if cannot_go_forward?
     lambda { @warrior.walk! }
   end
