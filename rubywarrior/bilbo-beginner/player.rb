@@ -14,7 +14,7 @@ class Player
     @warrior = warrior
 
     inspect_world
-    take_action
+    lookup_action.call
     update_state
   end
 
@@ -23,24 +23,15 @@ class Player
     p "View: #{@warrior.look}"
   end
 
-  def take_action
-    if retreat?
-      @warrior.walk! :backward
-    elsif melee_attack_enemy?
-      @warrior.attack!
-    elsif range_enemy_behind?
-      @warrior.pivot!
-    elsif range_attack_enemy?
-      @warrior.shoot!
-    elsif rescue_captive?
-      @warrior.rescue!
-    elsif heal?
-      @warrior.rest!
-    elsif cannot_go_forward?
-      @warrior.pivot!
-    else
-      @warrior.walk!
-    end
+  def lookup_action
+    return lambda { @warrior.walk! :backward } if retreat?
+    return lambda { @warrior.attack! } if melee_attack_enemy?
+    return lambda { @warrior.pivot! } if range_enemy_behind?
+    return lambda { @warrior.shoot! } if range_attack_enemy?
+    return lambda { @warrior.rescue! } if rescue_captive?
+    return lambda { @warrior.rest! } if heal?
+    return lambda { @warrior.pivot! } if cannot_go_forward?
+    lambda { @warrior.walk! }
   end
 
   def update_state
