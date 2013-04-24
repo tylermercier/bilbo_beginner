@@ -9,7 +9,7 @@ Tip: Call warrior.walk! to walk forward in the Player 'play_turn' method.
  --------
 
   > = Stairs
-  @ = Frodo Baggins (20 HP)
+  @ = Bilbo (20 HP)
 
 
 Warrior Abilities:
