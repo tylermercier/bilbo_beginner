@@ -6,7 +6,6 @@ class Player
 
   def initialize
     @last_health = 20
-    @retreated = false
   end
 
   def play_turn(warrior)
@@ -21,22 +20,20 @@ class Player
     p "Health: #{@warrior.health}"
     p "Last Health: #{@last_health}"
     p "View: #{@warrior.look}"
-    p "Can see enemy: #{can_see_enemy}"
-    p "Has clear shot: #{has_clear_shot}"
   end
 
   def take_action
-    if health_low && taking_damage && clear_behind_behind
+    if health_low? && taking_damage? && clear_behind?
       @warrior.walk! :backward
-    elsif can_feel? && @warrior.feel.enemy?
+    elsif @warrior.feel.enemy?
       @warrior.attack!
-    elsif range_enemy_behind
+    elsif range_enemy_behind?
       @warrior.pivot!
-    elsif can_look? && can_see_enemy && has_clear_shot
+    elsif can_see_enemy? && has_clear_shot?
       @warrior.shoot!
     elsif @warrior.feel.captive?
       @warrior.rescue!
-    elsif damaged? && not_taking_damage
+    elsif damaged? && not_taking_damage?
       @warrior.rest!
     elsif @warrior.feel.wall?
       @warrior.pivot!
@@ -46,8 +43,6 @@ class Player
   end
 
   def end_turn
-    if has_health?
-      @last_health = @warrior.health
-    end
+    @last_health = @warrior.health
   end
 end
