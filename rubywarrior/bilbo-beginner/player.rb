@@ -1,10 +1,12 @@
-require 'warrior_attributes'
+require_relative './warrior_attributes'
+
 class Player
   include WarriorAttribues
 
   attr_accessor :warrior, :last_health
 
-  def initialize
+  def initialize(warrior=nil)
+    @warrior = warrior
     @last_health = 20
   end
 
@@ -23,19 +25,19 @@ class Player
   end
 
   def take_action
-    if health_low? && taking_damage? && clear_behind?
+    if retreat?
       @warrior.walk! :backward
-    elsif @warrior.feel.enemy?
+    elsif can_melee_enemy?
       @warrior.attack!
     elsif range_enemy_behind?
       @warrior.pivot!
-    elsif can_see_enemy? && has_clear_shot?
+    elsif can_range_enemy?
       @warrior.shoot!
-    elsif @warrior.feel.captive?
+    elsif can_rescue_captive?
       @warrior.rescue!
-    elsif damaged? && not_taking_damage?
+    elsif heal?
       @warrior.rest!
-    elsif @warrior.feel.wall?
+    elsif cannot_go_forward?
       @warrior.pivot!
     else
       @warrior.walk!

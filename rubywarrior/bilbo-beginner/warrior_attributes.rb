@@ -2,7 +2,6 @@ module WarriorAttribues
 
   LOW_HEALTH = 12
   FULL_HEALTH = 20
-
   FRIENDS = ['Captive']
   ENEMIES = ['Archer', 'Wizard', 'Sludge', 'Thick Sludge']
   DIRECTIONS = [:forward, :left, :backward, :right]
@@ -50,5 +49,29 @@ module WarriorAttribues
       return false if thing.to_s != 'nothing'
     end
     true
+  end
+
+  def retreat?
+    health_low? && taking_damage? && clear_behind?
+  end
+
+  def can_melee_enemy?
+    @warrior.feel.enemy?
+  end
+
+  def can_range_enemy?
+    can_see_enemy? && has_clear_shot?
+  end
+
+  def can_rescue_captive?
+    @warrior.feel.captive?
+  end
+
+  def heal?
+    damaged? && not_taking_damage?
+  end
+
+  def cannot_go_forward?
+    @warrior.feel.wall?
   end
 end
