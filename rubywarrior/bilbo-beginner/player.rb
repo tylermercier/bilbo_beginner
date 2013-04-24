@@ -4,8 +4,6 @@ class Player
 
   attr_accessor :warrior, :last_health
 
-  DIRECTIONS = [:forward, :left, :backward, :right]
-
   def initialize
     @last_health = 20
     @retreated = false
@@ -28,10 +26,12 @@ class Player
   end
 
   def take_action
-    if health_low && taking_damage
+    if health_low && taking_damage && clear_behind_behind
       @warrior.walk! :backward
     elsif can_feel? && @warrior.feel.enemy?
       @warrior.attack!
+    elsif range_enemy_behind
+      @warrior.pivot!
     elsif can_look? && can_see_enemy && has_clear_shot
       @warrior.shoot!
     elsif @warrior.feel.captive?

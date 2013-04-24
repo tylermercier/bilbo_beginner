@@ -4,7 +4,8 @@ module WarriorAttribues
   FULL_HEALTH = 20
 
   FRIENDS = ['Captive']
-  ENEMIES = ['Sludge', 'Thick Sludge', 'Archer', 'Wizard']
+  ENEMIES = ['Archer', 'Wizard', 'Sludge', 'Thick Sludge']
+  DIRECTIONS = [:forward, :left, :backward, :right]
 
   def can_feel?
     defined? @warrior.feel
@@ -34,8 +35,8 @@ module WarriorAttribues
     !taking_damage
   end
 
-  def can_see_enemy
-    @warrior.look.each do |thing|
+  def can_see_enemy(dir=:forward)
+    @warrior.look(dir).each do |thing|
       return true if ENEMIES.include? thing.to_s
     end
     false
@@ -47,5 +48,19 @@ module WarriorAttribues
       return false if FRIENDS.include? thing.to_s
     end
     false
+  end
+
+  def range_enemy_behind
+    @warrior.look(:backward).each do |thing|
+      return true if thing.to_s == 'Archer'
+    end
+    false
+  end
+
+  def clear_behind_behind
+    @warrior.look(:backward).each do |thing|
+      return false if thing.to_s != 'nothing'
+    end
+    true
   end
 end
