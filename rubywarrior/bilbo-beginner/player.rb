@@ -6,6 +6,7 @@ class Player
   attr_accessor :warrior, :last_health
 
   DIRECTIONS = [:forward, :left, :backward, :right]
+  CRITICAL_HEALTH = 8
 
   def initialize
     @last_health = 20
@@ -21,11 +22,14 @@ class Player
   end
 
   def inspect_world
+    p "Health: #{@warrior.health}"
   end
 
   def take_action
     if can_feel? && warrior.feel.enemy?
       warrior.attack!
+    elsif warrior.health < CRITICAL_HEALTH
+      warrior.rest!
     else
       warrior.walk!
     end
