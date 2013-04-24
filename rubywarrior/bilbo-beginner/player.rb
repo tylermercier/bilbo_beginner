@@ -27,6 +27,8 @@ class Player
   def take_action
     if can_feel? && @warrior.feel.enemy?
       @warrior.attack!
+    elsif @warrior.feel.captive?
+      @warrior.rescue!
     elsif health_low && not_taking_damage
       @warrior.rest!
     else
