@@ -15,25 +15,24 @@ class Player
 
     inspect_world
     take_action
-    end_turn
+    update_state
   end
 
   def inspect_world
     p "Health: #{@warrior.health}"
-    p "Last Health: #{@last_health}"
     p "View: #{@warrior.look}"
   end
 
   def take_action
     if retreat?
       @warrior.walk! :backward
-    elsif can_melee_enemy?
+    elsif melee_attack_enemy?
       @warrior.attack!
     elsif range_enemy_behind?
       @warrior.pivot!
-    elsif can_range_enemy?
+    elsif range_attack_enemy?
       @warrior.shoot!
-    elsif can_rescue_captive?
+    elsif rescue_captive?
       @warrior.rescue!
     elsif heal?
       @warrior.rest!
@@ -44,7 +43,7 @@ class Player
     end
   end
 
-  def end_turn
+  def update_state
     @last_health = @warrior.health
   end
 end

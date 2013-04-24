@@ -81,4 +81,40 @@ describe Player do
       player.clear_behind?.should be_false
     end
   end
+
+  context :retreat? do
+    it "returns true when ..." do
+      false.should be_true
+    end
+  end
+
+  context :melee_attack_enemy? do
+    it "returns true when ..." do
+      false.should be_true
+    end
+  end
+
+  context :range_attack_enemy? do
+    it "returns true when ..." do
+      false.should be_true
+    end
+  end
+
+  context :rescue_captive? do
+    it "returns true when ..." do
+      false.should be_true
+    end
+  end
+
+  context :heal? do
+    it "returns true when ..." do
+      false.should be_true
+    end
+  end
+
+  context :cannot_go_forward? do
+    it "returns true when ..." do
+      false.should be_true
+    end
+  end
 end

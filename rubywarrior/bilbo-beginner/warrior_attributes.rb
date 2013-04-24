@@ -55,15 +55,15 @@ module WarriorAttribues
     health_low? && taking_damage? && clear_behind?
   end
 
-  def can_melee_enemy?
+  def melee_attack_enemy?
     @warrior.feel.enemy?
   end
 
-  def can_range_enemy?
+  def range_attack_enemy?
     can_see_enemy? && has_clear_shot?
   end
 
-  def can_rescue_captive?
+  def rescue_captive?
     @warrior.feel.captive?
   end
 
