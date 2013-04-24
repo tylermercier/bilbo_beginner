@@ -1,6 +1,7 @@
 module WarriorAttribues
 
-  HEALTH_THRESHOLD = 14
+  LOW_HEALTH = 12
+  FULL_HEALTH = 20
 
   def can_feel?
     defined? @warrior.feel
@@ -11,10 +12,18 @@ module WarriorAttribues
   end
 
   def health_low
-    @warrior.health < HEALTH_THRESHOLD
+    @warrior.health < LOW_HEALTH
+  end
+
+  def damaged?
+    @warrior.health < FULL_HEALTH
+  end
+
+  def taking_damage
+    @warrior.health < @last_health
   end
 
   def not_taking_damage
-    @warrior.health >= @last_health
+    !taking_damage
   end
 end

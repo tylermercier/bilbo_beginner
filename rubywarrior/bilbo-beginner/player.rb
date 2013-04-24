@@ -20,16 +20,18 @@ class Player
   end
 
   def inspect_world
-    p "Last Health: #{@last_health}"
     p "Health: #{@warrior.health}"
+    p "Last Health: #{@last_health}"
   end
 
   def take_action
-    if can_feel? && @warrior.feel.enemy?
+    if health_low && taking_damage
+      @warrior.walk! :backward
+    elsif can_feel? && @warrior.feel.enemy?
       @warrior.attack!
     elsif @warrior.feel.captive?
       @warrior.rescue!
-    elsif health_low && not_taking_damage
+    elsif damaged? && not_taking_damage
       @warrior.rest!
     else
       @warrior.walk!
