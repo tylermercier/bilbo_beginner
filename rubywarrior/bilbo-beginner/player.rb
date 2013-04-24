@@ -33,6 +33,8 @@ class Player
       @warrior.rescue!
     elsif damaged? && not_taking_damage
       @warrior.rest!
+    elsif @warrior.feel.wall?
+      @warrior.pivot!
     else
       @warrior.walk!
     end
