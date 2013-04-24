@@ -22,6 +22,9 @@ class Player
   def inspect_world
     p "Health: #{@warrior.health}"
     p "Last Health: #{@last_health}"
+    p "View: #{@warrior.look}"
+    p "Can see enemy: #{can_see_enemy}"
+    p "Has clear shot: #{has_clear_shot}"
   end
 
   def take_action
@@ -29,6 +32,8 @@ class Player
       @warrior.walk! :backward
     elsif can_feel? && @warrior.feel.enemy?
       @warrior.attack!
+    elsif can_look? && can_see_enemy && has_clear_shot
+      @warrior.shoot!
     elsif @warrior.feel.captive?
       @warrior.rescue!
     elsif damaged? && not_taking_damage
