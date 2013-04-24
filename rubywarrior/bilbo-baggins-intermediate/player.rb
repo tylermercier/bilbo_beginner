@@ -1,11 +1,16 @@
 class Player
-  attr_accessor :direction
+  attr_accessor :direction, :binding
 
   # :forward, :backward, :left or :right
   def play_turn(warrior)
     dat_feels(warrior)
 
-    if warrior.feel.enemy?
+    if enemy_count(warrior) > 1 && @binding.nil?
+      @binding = true
+      warrior.bind!(:left)
+    elsif enemy_count(warrior) > 1
+      warrior.bind!(:backward)
+    elsif enemy_count(warrior) > 0
       warrior.attack!
     elsif warrior.feel.captive?
       warrior.rescue!
@@ -29,6 +34,19 @@ class Player
     else
       warrior.walk! :right
     end
+  end
+
+  def enemy_count(warrior)
+    enemy_count = 0
+
+    enemy_count += 1 if warrior.feel(:forward).enemy?
+    enemy_count += 1 if warrior.feel(:backward).enemy?
+    enemy_count += 1 if warrior.feel(:left).enemy?
+    enemy_count += 1 if warrior.feel(:right).enemy?
+
+    p enemy_count
+
+    enemy_count
   end
 
   def dat_feels(warrior)
